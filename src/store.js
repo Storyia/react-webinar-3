@@ -5,6 +5,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.lastCode = Math.max(0, ...initState.list.map(item => item.code)); // переменная, которая хранит последний код
   }
 
   /**
@@ -42,9 +43,12 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    this.lastCode += 1; //увеличиваем последний код на 1
+    const newItem = { code: this.lastCode, title: 'Новая запись', selectedCount: 0 };
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: this.state.list.length + 1, title: 'Новая запись' }],
+      list: [...this.state.list, newItem],
     });
   }
 
@@ -67,8 +71,16 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.map(item => {
+        // сбрасываем выделение у всех элементов
         if (item.code === code) {
+          if (!item.selected) {
+            item.selectedCount = (item.selectedCount || 0) + 1;
+          }
+          // переключаем текущий элемент
           item.selected = !item.selected;
+        } else {
+          // остальные элементы сбрасываются
+          item.selected = false;
         }
         return item;
       }),
