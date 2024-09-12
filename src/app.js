@@ -1,6 +1,7 @@
 import React from 'react';
 import { createElement } from './utils.js';
 import './styles.css';
+import plural from 'plural-ru'; //библиотека для склонений слова "раз"
 
 /**
  * Приложение
@@ -29,7 +30,7 @@ function App({ store }) {
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">
                   {item.title}
-                  {item.selectedCount > 0 && ` | Выделяли ${item.selectedCount} раз`}
+                  {item.selectedCount > 0 && ` | Выделяли ${item.selectedCount} ${plural(item.selectedCount, 'раз', 'раза', 'раз')}`}
                 </div>
                 <div className="Item-actions">
                   <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
