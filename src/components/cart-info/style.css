@@ -1,0 +1,30 @@
+.CartInfo {
+  display: flex; /* для выравнивания содержимого */
+  justify-content: flex-end; /* Выравнивае по правому краю */
+  align-items: center; /* Выравнивае по вертикали по центру */
+  padding: 20px; /* Внутренние отступы */
+  border-bottom: 1px dashed #ccc; /* пунктирная линия снизу */
+  margin-bottom: 20px; /* Отступ снизу для разделения от остальных элементов */
+}
+
+.cart-button {
+  width: 76px;
+  height: 21px;
+  border: 2px solid #767676;
+  background-color: #EFEFEF;
+  color: #000000;
+  font-size: 13px;
+  text-align: center;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: 20px; /* Отступ слева для кнопки, чтобы отодвинуть её от текста */
+}
+
+.cart-info-text {
+  font-weight: normal; /* Обычный шрифт для текста "В корзине" */
+}
+
+.cart-info-bold {
+  font-weight: bold; /* Жирный шрифт для количества товаров и общей суммы */
+  margin-left: 20px; /* Отступ слева для отделения от текста "В корзине" */
+}

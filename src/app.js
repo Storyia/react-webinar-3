@@ -1,46 +1,58 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import List from './components/list';
-import Controls from './components/controls';
 import Head from './components/head';
 import PageLayout from './components/page-layout';
+import CartModal from './components/cart-modal';
+import CartInfo from './components/cart-info';
 
-/**
- * Приложение
- * @param store {Store} Хранилище состояния приложения
- * @returns {React.ReactElement}
- */
 function App({ store }) {
+  // Получаем список товаров и корзину
   const list = store.getState().list;
+  const cart = store.getState().cart;
+
+  // Управляем состоянием модального окна корзины (открыто/закрыто)
+  const [isCartOpen, setCartOpen] = useState(false);
 
   const callbacks = {
-    onDeleteItem: useCallback(
+    // Добавляем товар в корзину
+    onAddToCart: useCallback(
       code => {
-        store.deleteItem(code);
+        store.addToCart(code);
       },
-      [store],
+      [store], // Запоминаем store
     ),
 
-    onSelectItem: useCallback(
+    // Удаляем товар из корзины
+    onRemoveFromCart: useCallback(
       code => {
-        store.selectItem(code);
+        store.removeFromCart(code);
       },
-      [store],
+      [store], // Запоминаем store
     ),
 
-    onAddItem: useCallback(() => {
-      store.addItem();
-    }, [store]),
+    // Открываем/закрываем корзину
+    openCart: () => setCartOpen(true),
+    closeCart: () => setCartOpen(false),
   };
 
   return (
-    <PageLayout>
-      <Head title="Приложение на чистом JS" />
-      <Controls onAdd={callbacks.onAddItem} />
-      <List
-        list={list}
-        onDeleteItem={callbacks.onDeleteItem}
-        onSelectItem={callbacks.onSelectItem}
-      />
+    <PageLayout> {/* Вся страница внутри макета */}
+      <Head title="Магазин" />
+      
+      <CartInfo cart={cart} onCartClick={callbacks.openCart} />   {/* Информация о корзине и кнопка перехода */}
+
+      <List list={list} onAddToCart={callbacks.onAddToCart} />      {/* Список товаров и кнопка добавить */}
+      
+      {isCartOpen && (      /* Если корзина открыта, показываем модальное окно */
+        <PageLayout>
+          <CartModal
+            cart={cart}       /* Список товаров в корзине */
+            totalPrice={cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}        /* Считаем общую сумму */
+            onRemoveFromCart={callbacks.onRemoveFromCart}                               /* Удаление товара из корзины */
+            onClose={callbacks.closeCart}                        /* Закрытие корзины */
+          />
+        </PageLayout>
+      )}
     </PageLayout>
   );
 }

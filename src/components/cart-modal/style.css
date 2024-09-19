@@ -1,0 +1,150 @@
+/* Модальное окно */
+.modal {
+  position: fixed; /* Окно фиксировано на экране */
+  top: 50%; /* По вертикали в середине экрана */
+  left: 50%; /* По горизонтали в середине экрана */
+  transform: translate(-50%, -50%); /* Центрирует окно по X и Y */
+  background-color: #fff; /* Белый фон */
+  padding: 5px; /* Внутренний отступ */
+  border-radius: 8px; /* Округлые углы */
+  z-index: 1000; /* Отображается поверх других элементов */
+  max-width: 960px; /* Максимальная ширина */
+  width: 80%; /* Ширина 80% экрана */
+}
+
+.modal-header {
+  display: flex; /* Элементы внутри расположены горизонтально */
+  justify-content: space-between; /* Размещение элементов по краям */
+  height: 50px; /* Высота заголовка */
+  background: #f5f5f5; /* Светло-серый фон */
+  align-items: center; /* Вертикальное выравнивание по центру */
+  font-size: 24px; /* Размер шрифта */
+  font-weight: bold; /* Жирный шрифт */
+  margin: 0;
+  padding: 20px 20px 10px; /* Внутренние отступы */
+}
+
+.modal-body {
+  margin-top: 10px; /* Отступ сверху */
+  max-height: 300px; /* Максимальная высота */
+  overflow-y: auto; /* Прокрутка, если контент превышает высоту */
+}
+
+.modal-item {
+  position: relative;
+  padding: 10px 0; /* Внутренние отступы */
+  border-bottom: 1px dashed #ccc; /* Пунктирная линия снизу */
+}
+
+.item-code {
+  padding-left: 5px; /* Отступ слева для кода */
+}
+
+.item-title {
+  position: absolute;
+  left: 48px; /* Отступ слева */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); /* Коррекция для вертикального выравнивания */
+}
+
+.item-price {
+  text-align: right; /* Выравнивание по правому краю */
+  position: absolute;
+  right: 221px; /* Отступ от правого края */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); 
+}
+
+.item-quantity {
+  text-align: right; /* Выравнивание по правому краю */
+  position: absolute;
+  right: 121px; /* Отступ от правого края */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); 
+}
+
+.item-remove-button {
+  width: 76px;
+  height: 21px;
+  border: 2px solid #767676; /* Жирная рамка */
+  background-color: #EFEFEF; /* Светло-серый фон */
+  color: #000000; /* Чёрный текст */
+  font-size: 13px; /* Размер шрифта */
+  text-align: center; /* Выравнивание текста по центру */
+  padding: 2px 5px; /* Внутренние отступы */
+  border-radius: 2px; /* Округлые углы */
+  position: absolute;
+  right: 5px; /* Отступ от правого края */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); 
+}
+
+.modal-footer {
+  position: relative;
+  font-weight: bold; /* Жирный текст */
+  font-size: 18px; /* Размер шрифта */
+  margin-top: 20px; /* Отступ сверху */
+  margin-bottom: 89px; /* Отступ снизу */
+}
+
+.total-label {
+  text-align: right; /* Выравнивание по правому краю */
+  position: absolute;
+  right: 221px; /* Отступ от правого края */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); 
+}
+
+.total-price {
+  text-align: right; /* Выравнивание по правому краю */
+  position: absolute;
+  right: 121px; /* Отступ от правого края */
+  top: 50%; /* Центр по вертикали */
+  transform: translateY(-50%); 
+}
+
+button {
+  width: 76px; /* Ширина */
+  height: 21px; /* Высота */
+  border: 2px solid #767676; /* Жирная рамка */
+  background-color: #EFEFEF; /* фон */
+  color: #000000; /* текст */
+  font-size: 13px; /* Размер шрифта */
+  text-align: center; /* Выравнивание текста по центру */
+  padding: 2px 5px; /* Внутренние отступы */
+  border-radius: 2px; /* Округлые углы */
+}
+
+button:hover {
+  background-color: #e0e0e0; /* Изменение фона при наведении */
+}
+
+button.close-btn {
+  width: 76px;
+  height: 21px;
+  border: 2px solid #767676;
+  background-color: #EFEFEF;
+  color: #000000;
+  font-size: 13px;
+  text-align: center;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: 10px; /* Отступ слева */
+}
+
+/* Затемняющий фон */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный чёрный фон */
+  z-index: 999; /* Поверх всех элементов */
+}
+
+/* пустая строка */
+.empty-row {
+  border-bottom: 1px dashed #ccc; /* Пунктирная линия снизу */
+  height: 60px; /* Высота строки */
+}

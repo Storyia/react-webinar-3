@@ -5,7 +5,10 @@ import { generateCode } from './utils';
  */
 class Store {
   constructor(initState = {}) {
-    this.state = initState;
+    this.state = {
+      ...initState,
+      cart: [], // Инициализация корзины
+    };
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -40,47 +43,30 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
-  /**
-   * Добавление новой записи
-   */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }],
-    });
+  /** добавление и удаление в корзину */
+
+  addToCart(productCode) {
+    const itemInCart = this.state.cart.find(item => item.code === productCode);
+    if (itemInCart) {
+      this.setState({
+        ...this.state,
+        cart: this.state.cart.map(item =>
+          item.code === productCode ? { ...item, quantity: item.quantity + 1 } : item
+        ),
+      });
+    } else {
+      const product = this.state.list.find(item => item.code === productCode);
+      this.setState({
+        ...this.state,
+        cart: [...this.state.cart, { ...product, quantity: 1 }],
+      });
+    }
   }
 
-  /**
-   * Удаление записи по коду
-   * @param code
-   */
-  deleteItem(code) {
+  removeFromCart(productCode) {
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code),
-    });
-  }
-
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? { ...item, selected: false } : item;
-      }),
+      cart: this.state.cart.filter(item => item.code !== productCode),
     });
   }
 }

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Item from '../item';
+import Item from '../item'; // Компонент с товарами
 import './style.css';
 
-function List({ list, onDeleteItem, onSelectItem }) {
+function List({ list, totalQuantity, totalPrice, onAddToCart }) {
   return (
-    <div className="List">
+    <div className="List">     
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} onDelete={onDeleteItem} onSelect={onSelectItem} />
+          <Item item={item} onAddToCart={onAddToCart} />
         </div>
       ))}
     </div>
@@ -18,16 +18,14 @@ function List({ list, onDeleteItem, onSelectItem }) {
 List.propTypes = {
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      code: PropTypes.number,
-    }),
+      code: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+    })
   ).isRequired,
-  onDeleteItem: PropTypes.func,
-  onSelectItem: PropTypes.func,
+  totalQuantity: PropTypes.number.isRequired, // Количество товаров в корзине
+  totalPrice: PropTypes.number.isRequired, // Общая сумма
+  onAddToCart: PropTypes.func.isRequired, // Функция для добавления товара в корзину
 };
 
-List.defaultProps = {
-  onDeleteItem: () => {},
-  onSelectItem: () => {},
-};
-
-export default React.memo(List);
+export default List;
