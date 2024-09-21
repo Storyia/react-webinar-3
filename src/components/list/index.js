@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import Item from '../item'; // Компонент с товарами
 import './style.css';
 
-function List({ list, totalQuantity, totalPrice, onAddToCart }) {
+function List({ list, onAction, actionLabel, isModal }) {
   return (
-    <div className="List">     
+    <div className="List">
       {list.map(item => (
         <div key={item.code} className="List-item">
-          <Item item={item} onAddToCart={onAddToCart} />
+          <Item
+            item={item}
+            onAction={onAction}
+            actionLabel={actionLabel}
+            isModal={isModal}
+          />
         </div>
       ))}
     </div>
@@ -21,11 +26,11 @@ List.propTypes = {
       code: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
+      quantity: PropTypes.number, // Для товаров в корзине
     })
   ).isRequired,
-  totalQuantity: PropTypes.number.isRequired, // Количество товаров в корзине
-  totalPrice: PropTypes.number.isRequired, // Общая сумма
-  onAddToCart: PropTypes.func.isRequired, // Функция для добавления товара в корзину
+  onAction: PropTypes.func.isRequired, // Функция для действий с товарами
+  actionLabel: PropTypes.string.isRequired,
 };
 
 export default List;

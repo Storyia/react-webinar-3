@@ -3,8 +3,15 @@ import PropTypes from 'prop-types';
 import './style.css'; 
 import plural from 'plural-ru';
 
+function formatPrice(price) {
+  return price.toLocaleString('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+    minimumFractionDigits: 0
+  });
+}
+
 function CartInfo({ cart, onCartClick }) {
-  // Вычисляем количество уникальных товаров и общую сумму
   const totalQuantity = cart.length;
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -12,8 +19,10 @@ function CartInfo({ cart, onCartClick }) {
     <div className="CartInfo">
       <span className="cart-info-text">В корзине:</span>
       <span className="cart-info-bold">
-      {totalQuantity} {plural(totalQuantity, 'товар', 'товара', 'товаров')} / {totalPrice} ₽
-    </span>
+        {totalQuantity > 0 
+          ? `${totalQuantity} ${plural(totalQuantity, 'товар', 'товара', 'товаров')} / ${formatPrice(totalPrice)}`
+          : 'Пусто'}
+      </span>
       <button className="cart-button" onClick={onCartClick}>Перейти</button>
     </div>
   );

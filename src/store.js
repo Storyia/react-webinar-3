@@ -8,6 +8,8 @@ class Store {
     this.state = {
       ...initState,
       cart: [], // Инициализация корзины
+      totalQuantity: 0, // Общее количество товаров
+      totalPrice: 0, // Общая стоимость товаров
     };
     this.listeners = []; // Слушатели изменений состояния
   }
@@ -43,8 +45,18 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
-  /** добавление и удаление в корзину */
+  // Функция для обновления общей суммы и количества
+  updateCartTotals() {
+    const totalQuantity = this.state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = this.state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    this.setState({
+      ...this.state,
+      totalQuantity,
+      totalPrice,
+    });
+  }
 
+  /** Добавление товара в корзину */
   addToCart(productCode) {
     const itemInCart = this.state.cart.find(item => item.code === productCode);
     if (itemInCart) {
@@ -61,14 +73,25 @@ class Store {
         cart: [...this.state.cart, { ...product, quantity: 1 }],
       });
     }
+
+    // Обновляем общую сумму и количество после добавления
+    this.updateCartTotals();
+  }
+   /** Удаление товара из корзины */
+  removeFromCart(productCode) {
+    const itemInCart = this.state.cart.find(item => item.code === productCode);
+    if (itemInCart) {
+      // Полностью удаляем товар из корзины
+      this.setState({
+        ...this.state,
+        cart: this.state.cart.filter(item => item.code !== productCode),
+      });
+    }
+
+    // Обновляем общую сумму и количество после удаления
+    this.updateCartTotals();
   }
 
-  removeFromCart(productCode) {
-    this.setState({
-      ...this.state,
-      cart: this.state.cart.filter(item => item.code !== productCode),
-    });
-  }
 }
 
 export default Store;

@@ -6,50 +6,46 @@ import CartModal from './components/cart-modal';
 import CartInfo from './components/cart-info';
 
 function App({ store }) {
-  // Получаем список товаров и корзину
   const list = store.getState().list;
   const cart = store.getState().cart;
-
-  // Управляем состоянием модального окна корзины (открыто/закрыто)
   const [isCartOpen, setCartOpen] = useState(false);
 
   const callbacks = {
-    // Добавляем товар в корзину
     onAddToCart: useCallback(
       code => {
         store.addToCart(code);
       },
-      [store], // Запоминаем store
+      [store],
     ),
-
-    // Удаляем товар из корзины
     onRemoveFromCart: useCallback(
       code => {
         store.removeFromCart(code);
       },
-      [store], // Запоминаем store
+      [store],
     ),
-
-    // Открываем/закрываем корзину
     openCart: () => setCartOpen(true),
     closeCart: () => setCartOpen(false),
   };
 
   return (
-    <PageLayout> {/* Вся страница внутри макета */}
+    <PageLayout>
       <Head title="Магазин" />
       
-      <CartInfo cart={cart} onCartClick={callbacks.openCart} />   {/* Информация о корзине и кнопка перехода */}
+      <CartInfo cart={cart} onCartClick={callbacks.openCart} />
 
-      <List list={list} onAddToCart={callbacks.onAddToCart} />      {/* Список товаров и кнопка добавить */}
+      <List
+        list={list}
+        onAction={callbacks.onAddToCart} 
+        actionLabel="Добавить" 
+      />
       
-      {isCartOpen && (      /* Если корзина открыта, показываем модальное окно */
+      {isCartOpen && (
         <PageLayout>
           <CartModal
-            cart={cart}       /* Список товаров в корзине */
-            totalPrice={cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}        /* Считаем общую сумму */
-            onRemoveFromCart={callbacks.onRemoveFromCart}                               /* Удаление товара из корзины */
-            onClose={callbacks.closeCart}                        /* Закрытие корзины */
+            cart={cart}
+            totalPrice={cart.reduce((sum, item) => sum + item.price * item.quantity, 0)}
+            onRemoveFromCart={callbacks.onRemoveFromCart}
+            onClose={callbacks.closeCart}
           />
         </PageLayout>
       )}

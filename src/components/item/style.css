@@ -1,4 +1,4 @@
-.Item {
+.catalog-item {
   display: flex;
   justify-content: flex-start;
   transition: background-color 1s; /* плавный переход */
@@ -23,9 +23,33 @@
   border-radius: 5px;
 }
 
-.Item-price {
+.catalog-price {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   white-space: nowrap;
+}
+
+.modal-item {
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  border-bottom: 1px dashed #ccc; 
+
+} 
+
+.modal-price {
+  text-align: right; 
+  position: absolute;
+  right: 221px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+}
+
+.item-quantity {
+  text-align: right; 
+  position: absolute;
+  right: 121px;
+  top: 50%; 
+  transform: translateY(-50%); 
 }
